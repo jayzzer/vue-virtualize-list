@@ -1,13 +1,19 @@
 <template>
   <ul class="list">
-    <li v-for="item in items" :key="item" class="list__item">{{ item }}</li>
+    <VirtualizedList :items="items" :item-height="18.4">
+      <template #default="{ item }">
+        <li class="list__item">{{ item }}</li>
+      </template>
+    </VirtualizedList>
   </ul>
 </template>
 
 <script>
+import VirtualizedList from '@/components/VirtualizedList.vue';
+
 export default {
   name: 'List',
-
+  components: { VirtualizedList },
   props: {
     items: {
       type: Array,
@@ -21,7 +27,6 @@ export default {
 
 <style scoped>
 .list {
-  overflow: auto;
   border: solid 2px #6d6d6d;
 }
 </style>
