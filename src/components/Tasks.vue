@@ -1,5 +1,6 @@
 <template>
   <div class="tasks">
+    <input type="number" v-model="tasksCount">
     <List class="task-list" :items="tasks"/>
   </div>
 </template>
@@ -7,7 +8,7 @@
 <script>
 import List from '@/components/List.vue';
 
-const TASK_COUNT = 100;
+const DEFAULT_TASK_COUNT = 100;
 
 export default {
   name: 'Tasks',
@@ -16,14 +17,29 @@ export default {
 
   data() {
     return {
+      tasksCount: DEFAULT_TASK_COUNT,
       tasks: [],
     };
   },
 
-  created() {
-    for (let i = 0; i < TASK_COUNT; i += 1) {
-      this.tasks.push(`Task #${i}`);
-    }
+  watch: {
+    tasksCount: {
+      immediate: true,
+      handler(value) {
+        this.tasks = this.generateTasks(value);
+      },
+    },
+  },
+
+  methods: {
+    generateTasks(count) {
+      const generatedTasks = [];
+      for (let i = 0; i < count; i += 1) {
+        generatedTasks.push(`Task #${i}`);
+      }
+
+      return generatedTasks;
+    },
   },
 };
 </script>
